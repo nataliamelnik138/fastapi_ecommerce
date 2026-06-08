@@ -102,3 +102,15 @@ class ReviewCreate(BaseModel):
     product_id: int = Field(..., description="Идентификатор товара")
     comment: str | None = Field(None, description="Текст отзыва")
     grade: int = Field(..., ge=1, le=5, description="Оценка")
+
+
+class ProductList(BaseModel):
+    """
+    Список пагинации для товаров.
+    """
+    items: list[Product] = Field(description="Товары для текущей страницы")
+    total: int = Field(ge=0, description="Общее количество товаров")
+    page: int = Field(ge=1, description="Номер текущей страницы")
+    page_size: int = Field(ge=1, description="Количество элементов на странице")
+
+    model_config = ConfigDict(from_attributes=True)  # Для чтения из ORM-объектов
